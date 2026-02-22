@@ -5,6 +5,10 @@ npm-debug.log
 build/
 dist/
 
+# Backend specific
+backend/node_modules/
+backend/.env
+
 # OS-specific
 .DS_Store
 Thumbs.db
