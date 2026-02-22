@@ -46,7 +46,28 @@ function addUser(userName, details = {}) {
   return filePath;
 }
 
+/**
+ * Lists all users by reading from the data directory.
+ * @returns {object[]} An array of user data objects from frontmatter.
+ */
+function listUsers() {
+  ensureUsersDirExists();
+
+  const files = fs.readdirSync(usersDir);
+  const userFiles = files.filter(file => file.endsWith('.md'));
+
+  const users = userFiles.map(file => {
+    const filePath = path.join(usersDir, file);
+    const fileContent = fs.readFileSync(filePath, 'utf8');
+    const { data } = matter(fileContent);
+    return data;
+  });
+
+  return users;
+}
+
 module.exports = {
   addUser,
+  listUsers,
   usersDir,
 };

@@ -1,5 +1,5 @@
 const { Command } = require('commander');
-const { addUser } = require('../../core/userService');
+const { addUser, listUsers } = require('../../core/userService');
 
 function buildUserCommand() {
   const userCommand = new Command('user')
@@ -25,6 +25,22 @@ function buildUserCommand() {
         console.log(`Successfully added user '${name}'.`);
       } catch (error) {
         console.error(`Error adding user: ${error.message}`);
+      }
+    });
+
+  userCommand
+    .command('list')
+    .description('List all users')
+    .action(() => {
+      try {
+        const users = listUsers();
+        if (users.length === 0) {
+          console.log('No users found.');
+          return;
+        }
+        console.table(users);
+      } catch (error) {
+        console.error(`Error listing users: ${error.message}`);
       }
     });
 
